@@ -199,36 +199,27 @@
       flex: 1;
       border-radius: 26px;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      background:
-        radial-gradient(circle at 50% 30%, rgba(51, 180, 155, 0.3), transparent 22%),
-        radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.14), transparent 8%),
-        radial-gradient(circle at 50% 56%, rgba(214, 56, 56, 0.36), transparent 18%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+      background: #101010;
       position: relative;
       overflow: hidden;
       min-height: 300px;
     }
 
-    .bro-photo::before {
-      content: "";
-      position: absolute;
-      inset: 12% 22% auto 22%;
-      height: 30%;
-      border-radius: 999px 999px 42% 42%;
-      background: rgba(255, 255, 255, 0.9);
-      filter: blur(1px);
-    }
-
     .bro-photo::after {
       content: "";
       position: absolute;
-      left: 18%;
-      right: 18%;
-      bottom: -8%;
-      height: 58%;
-      border-radius: 40% 40% 20% 20%;
-      background: linear-gradient(180deg, #33b49b 0%, #d63838 100%);
-      box-shadow: inset 0 30px 40px rgba(255, 255, 255, 0.18);
+      inset: auto 0 0;
+      height: 40%;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.68) 100%);
+      pointer-events: none;
+    }
+
+    .bro-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 28%;
+      display: block;
     }
 
     .bro-caption {
@@ -491,12 +482,14 @@
 
       <aside class="bro-card">
         <span class="bro-badge">Foto grande de tu bro</span>
-        <div class="bro-photo" aria-hidden="true"></div>
+        <div class="bro-photo">
+          <img src="./assets/bro-playa.jpeg" alt="Tu bro posando en la playa con lentes y short estampado">
+        </div>
         <div class="bro-caption">
-          <strong>Espacio premium para tu bro</strong>
+          <strong>El bro oficial de la operación</strong>
           <span>
-            Dejé una placa gigante lista para reemplazar por la foto real. Si me pasás la imagen,
-            te la incrusto acá y queda todavía más delirante.
+            Ya quedó ocupando su lugar como corresponde: bien grande, en modo estrella invitada,
+            supervisando cómo la web mastica facturas mientras vuelan los mates.
           </span>
         </div>
       </aside>
