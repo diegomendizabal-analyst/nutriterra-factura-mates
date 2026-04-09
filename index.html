@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutriterra | Carga tu factura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f1e6;
+      --paper: #fffaf2;
+      --ink: #1d1b18;
+      --muted: #6b645d;
+      --red: #d63838;
+      --mint: #33b49b;
+      --dark: #151515;
+      --line: rgba(29, 27, 24, 0.12);
+      --shadow: 0 20px 50px rgba(20, 20, 20, 0.15);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(51, 180, 155, 0.32), transparent 32%),
+        radial-gradient(circle at top right, rgba(214, 56, 56, 0.2), transparent 28%),
+        linear-gradient(135deg, #f9f2e7 0%, #f2eee8 48%, #efe3cf 100%);
+      min-height: 100vh;
+    }
+
+    .page-shell {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .brand-chip,
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 999px;
+      background: rgba(255, 250, 242, 0.72);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .brand-chip img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #0d0d0d;
+      padding: 4px;
+    }
+
+    .brand-copy small,
+    .status-chip small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-copy strong,
+    .status-chip strong {
+      display: block;
+      font-size: 0.98rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    .hero-copy,
+    .bro-card,
+    .upload-card,
+    .results-card,
+    .raw-text-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 250, 242, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 34px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      background: rgba(51, 180, 155, 0.14);
+      color: #177661;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      max-width: 11ch;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      max-width: 60ch;
+      font-size: 1.08rem;
+      line-height: 1.65;
+      color: #332f2b;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .metric {
+      min-width: 165px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: #161616;
+      color: #fff5ea;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.6rem;
+    }
+
+    .metric span {
+      color: rgba(255, 245, 234, 0.72);
+      font-size: 0.92rem;
+    }
+
+    .bro-card {
+      min-height: 420px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(214, 56, 56, 0.1), transparent 30%),
+        linear-gradient(145deg, #1c1c1c 0%, #2c2b2b 55%, #0d0d0d 100%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .bro-badge {
+      display: inline-flex;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .bro-photo {
+      flex: 1;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background:
+        radial-gradient(circle at 50% 30%, rgba(51, 180, 155, 0.3), transparent 22%),
+        radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.14), transparent 8%),
+        radial-gradient(circle at 50% 56%, rgba(214, 56, 56, 0.36), transparent 18%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+      position: relative;
+      overflow: hidden;
+      min-height: 300px;
+    }
+
+    .bro-photo::before {
+      content: "";
+      position: absolute;
+      inset: 12% 22% auto 22%;
+      height: 30%;
+      border-radius: 999px 999px 42% 42%;
+      background: rgba(255, 255, 255, 0.9);
+      filter: blur(1px);
+    }
+
+    .bro-photo::after {
+      content: "";
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      bottom: -8%;
+      height: 58%;
+      border-radius: 40% 40% 20% 20%;
+      background: linear-gradient(180deg, #33b49b 0%, #d63838 100%);
+      box-shadow: inset 0 30px 40px rgba(255, 255, 255, 0.18);
+    }
+
+    .bro-caption {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .bro-caption strong {
+      font-size: 1.3rem;
+    }
+
+    .bro-caption span {
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.5;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 390px) 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .upload-card,
+    .results-card,
+    .raw-text-card {
+      padding: 28px;
+    }
+
+    .upload-card h2,
+    .results-card h2,
+    .raw-text-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .upload-card p,
+    .results-card p,
+    .raw-text-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .dropzone {
+      display: grid;
+      place-items: center;
+      min-height: 260px;
+      border: 2px dashed rgba(214, 56, 56, 0.35);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(214, 56, 56, 0.06), rgba(51, 180, 155, 0.08)),
+        var(--paper);
+      text-align: center;
+      padding: 24px;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .dropzone:hover,
+    .dropzone:focus-within,
+    .dropzone.is-active {
+      transform: translateY(-2px);
+      border-color: rgba(51, 180, 155, 0.85);
+      box-shadow: 0 18px 30px rgba(51, 180, 155, 0.12);
+    }
+
+    .dropzone strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+
+    .dropzone span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .file-meta {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(21, 21, 21, 0.04);
+      font-size: 0.96rem;
+      color: #2a2926;
+      min-height: 53px;
+    }
+
+    .results-card {
+      display: grid;
+      gap: 20px;
+    }
+
+    .status-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(90deg, rgba(51, 180, 155, 0.12), rgba(214, 56, 56, 0.08));
+      border: 1px solid rgba(51, 180, 155, 0.18);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #151515;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      min-height: 112px;
+    }
+
+    .field small {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .field strong {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .raw-text-card textarea {
+      width: 100%;
+      min-height: 260px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      font: inherit;
+      line-height: 1.55;
+      color: #262320;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      padding: 18px 22px;
+      border-radius: 22px;
+      background: #171717;
+      color: rgba(255, 245, 234, 0.86);
+      line-height: 1.7;
+    }
+
+    .footer-note strong {
+      color: #fff;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        width: min(100% - 20px, 100%);
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-copy,
+      .bro-card,
+      .upload-card,
+      .results-card,
+      .raw-text-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <div class="brand-chip">
+        <img src="./assets/nutriterra-logo.png" alt="Logo de Nutriterra">
+        <div class="brand-copy">
+          <small>Nutriterra Labs</small>
+          <strong>Separador de facturas con onda</strong>
+        </div>
+      </div>
+      <div class="status-chip">
+        <div>
+          <small>Modo operativo</small>
+          <strong>Vos mateás, la web labura</strong>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <article class="hero-copy">
+        <div>
+          <span class="eyebrow">Cargador de PDF para facturas</span>
+          <h1>Carga tu factura forro y yo hago el trabajo mientras vos tomas mates y ves youtube.</h1>
+        </div>
+
+        <p>
+          Subís el PDF, esta página extrae el texto y te acomoda los datos clave por separado:
+          proveedor, CUIT, fecha, tipo de comprobante, punto de venta, número, subtotal, IVA y total.
+          Si el PDF viene medio falopa, abajo igual te deja el texto crudo para revisar.
+        </p>
+
+        <div class="hero-metrics">
+          <div class="metric">
+            <strong>1 PDF</strong>
+            <span>Se procesa directo en el navegador</span>
+          </div>
+          <div class="metric">
+            <strong>10 campos</strong>
+            <span>Separados y listos para copiar</span>
+          </div>
+          <div class="metric">
+            <strong>0 drama</strong>
+            <span>Mientras vos seguís con el mate</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="bro-card">
+        <span class="bro-badge">Foto grande de tu bro</span>
+        <div class="bro-photo" aria-hidden="true"></div>
+        <div class="bro-caption">
+          <strong>Espacio premium para tu bro</strong>
+          <span>
+            Dejé una placa gigante lista para reemplazar por la foto real. Si me pasás la imagen,
+            te la incrusto acá y queda todavía más delirante.
+          </span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="content-grid">
+      <article class="upload-card">
+        <h2>Subí la factura</h2>
+        <p>Funciona mejor con PDFs que tengan texto seleccionable. Si es un escaneo puro, probablemente haga falta OCR.</p>
+
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="pdfInput" accept="application/pdf">
+          <div>
+            <strong>Arrastrá el PDF acá o hacé click</strong>
+            <span>Factura A, B, C o la criatura contable que te hayan mandado.</span>
+          </div>
+        </label>
+
+        <div class="file-meta" id="fileMeta">Todavía no cargaste ningún archivo.</div>
+      </article>
+
+      <div class="results-card">
+        <div>
+          <h2>Datos separados</h2>
+          <p>La extracción es heurística: busca patrones típicos dentro del texto del PDF y los reparte en tarjetas.</p>
+        </div>
+
+        <div class="status-panel">
+          <div>
+            <strong id="statusTitle">Esperando un PDF</strong>
+            <p id="statusMessage">Cuando subas una factura, arranco a leerla y te devuelvo lo importante por separado.</p>
+          </div>
+          <span class="status-pill" id="statusPill">Idle</span>
+        </div>
+
+        <div class="field-grid" id="fieldGrid"></div>
+      </div>
+    </section>
+
+    <section class="raw-text-card">
+      <h2>Texto crudo del PDF</h2>
+      <p>Esto sirve para chequear qué pudo leer la web y ajustar patrones si una factura viene con otro formato.</p>
+      <textarea id="rawText" placeholder="Acá va a aparecer el texto extraído del PDF..."></textarea>
+    </section>
+
+    <div class="footer-note">
+      <strong>Nota importante:</strong> esta demo corre 100% del lado del navegador con `pdf.js`.
+      Si después querés que además exporte a Excel, JSON o pegue directo en una base, lo siguiente es conectarla a un backend.
+    </div>
+  </main>
+
+  <script type="module">
+    import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.mjs";
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.mjs";
+
+    const fields = [
+      { key: "proveedor", label: "Proveedor / Razón social" },
+      { key: "cuit", label: "CUIT" },
+      { key: "fecha", label: "Fecha" },
+      { key: "tipo", label: "Tipo de factura" },
+      { key: "puntoVenta", label: "Punto de venta" },
+      { key: "numero", label: "Número" },
+      { key: "subtotal", label: "Subtotal" },
+      { key: "iva", label: "IVA" },
+      { key: "total", label: "Total" },
+      { key: "moneda", label: "Moneda" }
+    ];
+
+    const fieldGrid = document.getElementById("fieldGrid");
+    const rawText = document.getElementById("rawText");
+    const pdfInput = document.getElementById("pdfInput");
+    const fileMeta = document.getElementById("fileMeta");
+    const dropzone = document.getElementById("dropzone");
+    const statusTitle = document.getElementById("statusTitle");
+    const statusMessage = document.getElementById("statusMessage");
+    const statusPill = document.getElementById("statusPill");
+
+    function renderFields(data = {}) {
+      fieldGrid.innerHTML = "";
+
+      fields.forEach((field) => {
+        const card = document.createElement("article");
+        card.className = "field";
+        card.innerHTML = `
+          <small>${field.label}</small>
+          <strong>${data[field.key] || "Sin detectar"}</strong>
+        `;
+        fieldGrid.appendChild(card);
+      });
+    }
+
+    function setStatus(title, message, pill) {
+      statusTitle.textContent = title;
+      statusMessage.textContent = message;
+      statusPill.textContent = pill;
+    }
+
+    function normalizeText(text) {
+      return text
+        .replace(/\u00a0/g, " ")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n{2,}/g, "\n")
+        .trim();
+    }
+
+    function pickMatch(text, patterns) {
+      for (const pattern of patterns) {
+        const match = text.match(pattern);
+        if (match && match[1]) {
+          return match[1].trim();
+        }
+      }
+      return "";
+    }
+
+    function pickAmount(text, labels) {
+      const variants = labels.flatMap((label) => [
+        new RegExp(`${label}\\s*[:$]?\\s*([\\$]?[\\d\\.,]+)`, "i"),
+        new RegExp(`${label}[\\s\\S]{0,20}?([\\$]?[\\d\\.,]+)`, "i")
+      ]);
+      return pickMatch(text, variants);
+    }
+
+    function extractInvoiceData(text) {
+      const normalized = normalizeText(text);
+      const lines = normalized.split("\n").map((line) => line.trim()).filter(Boolean);
+
+      const tipo = pickMatch(normalized, [
+        /\bFACTURA\s+([ABCEMX])\b/i,
+        /\b([ABCEMX])\b[\s-]*COD\./i,
+        /\bCOMPROBANTE\s+([ABCEMX])\b/i
+      ]);
+
+      const fecha = pickMatch(normalized, [
+        /fecha\s*[:\-]?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/i,
+        /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/
+      ]);
+
+      const cuit = pickMatch(normalized, [
+        /cuit\s*[:\-]?\s*(\d{2}-?\d{8}-?\d)/i,
+        /CUIT\s+N[°º]?\s*[:\-]?\s*(\d{2}-?\d{8}-?\d)/i
+      ]);
+
+      const total = pickAmount(normalized, ["importe total", "total", "total a pagar"]);
+      const subtotal = pickAmount(normalized, ["subtotal", "importe neto gravado", "neto gravado"]);
+      const iva = pickAmount(normalized, ["iva", "iva 21%", "iva 10.5%", "iva 27%"]);
+      const moneda = /\bUSD\b/i.test(normalized) ? "USD" : /\bARS\b|\$\s/gi.test(normalized) ? "ARS" : "Sin detectar";
+
+      let puntoVenta = "";
+      let numero = "";
+
+      const composite = normalized.match(/(\d{4,5})-(\d{6,8})/);
+      if (composite) {
+        puntoVenta = composite[1];
+        numero = composite[2];
+      } else {
+        puntoVenta = pickMatch(normalized, [
+          /(?:pto\.?\s*venta|punto de venta)\s*[:\-]?\s*(\d{1,5})/i
+        ]);
+        numero = pickMatch(normalized, [
+          /(?:n[°º]?\s*(?:comp\.?)?|número)\s*[:\-]?\s*(\d{1,8})/i,
+          /comprobante\s*[:\-]?\s*(\d{1,8})/i
+        ]);
+      }
+
+      let proveedor = pickMatch(normalized, [
+        /raz[oó]n social\s*[:\-]?\s*([^\n]+)/i,
+        /señor(?:es)?\s*[:\-]?\s*([^\n]+)/i
+      ]);
+
+      if (!proveedor) {
+        proveedor = lines.find((line) => {
+          const looksLikeName = /^[A-ZÁÉÍÓÚÑ0-9 .,&-]{6,}$/.test(line.toUpperCase());
+          const isNoise = /factura|cuit|iva|ingresos brutos|domicilio|p[aá]gina|original|duplicado/i.test(line);
+          return looksLikeName && !isNoise;
+        }) || "";
+      }
+
+      return {
+        proveedor,
+        cuit,
+        fecha,
+        tipo: tipo ? `Factura ${tipo.toUpperCase()}` : "",
+        puntoVenta,
+        numero,
+        subtotal,
+        iva,
+        total,
+        moneda
+      };
+    }
+
+    async function extractTextFromPdf(file) {
+      const bytes = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      const pages = [];
+
+      for (let pageIndex = 1; pageIndex <= pdf.numPages; pageIndex += 1) {
+        const page = await pdf.getPage(pageIndex);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+          .map((item) => item.str)
+          .join(" ")
+          .replace(/\s{2,}/g, " ");
+
+        pages.push(pageText);
+      }
+
+      return pages.join("\n");
+    }
+
+    async function handleFile(file) {
+      if (!file || file.type !== "application/pdf") {
+        setStatus("Archivo inválido", "Necesito un PDF real para poder extraer la factura.", "Error");
+        fileMeta.textContent = "Subí un archivo con extensión PDF.";
+        return;
+      }
+
+      fileMeta.textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+      setStatus("Procesando factura", "Estoy leyendo el PDF y buscando los campos clave.", "Laburando");
+      rawText.value = "";
+      renderFields();
+
+      try {
+        const text = await extractTextFromPdf(file);
+        const normalized = normalizeText(text);
+        const data = extractInvoiceData(normalized);
+
+        rawText.value = normalized || "No se pudo extraer texto del PDF.";
+        renderFields(data);
+
+        setStatus(
+          "Factura procesada",
+          "Listo. Te separé los datos detectados y te dejé el texto completo abajo para control.",
+          "Hecho"
+        );
+      } catch (error) {
+        console.error(error);
+        setStatus(
+          "No pude leer el PDF",
+          "Puede ser un escaneo sin OCR o un archivo con formato raro. Abajo no apareció texto usable.",
+          "Atenti"
+        );
+        rawText.value = "Error al procesar el PDF. Revisá la consola del navegador para más detalle.";
+        renderFields();
+      }
+    }
+
+    dropzone.addEventListener("dragenter", () => dropzone.classList.add("is-active"));
+    dropzone.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      dropzone.classList.add("is-active");
+    });
+    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("is-active"));
+    dropzone.addEventListener("drop", (event) => {
+      event.preventDefault();
+      dropzone.classList.remove("is-active");
+      const [file] = event.dataTransfer.files;
+      handleFile(file);
+    });
+
+    pdfInput.addEventListener("change", (event) => {
+      const [file] = event.target.files;
+      handleFile(file);
+    });
+
+    renderFields();
+  </script>
+</body>
+</html>
